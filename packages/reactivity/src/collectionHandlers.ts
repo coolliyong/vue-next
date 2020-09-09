@@ -227,10 +227,12 @@ function createInstrumentationGetter(instrumentations: any) {
   }
 }
 
+// 基础数据类型 Handle 处理 函数
 export const mutableCollectionHandlers: ProxyHandler<any> = {
   get: createInstrumentationGetter(mutableInstrumentations)
 }
 
+// 集合的proxy Handle 处理 函数
 export const readonlyCollectionHandlers: ProxyHandler<any> = {
   get: createInstrumentationGetter(readonlyInstrumentations)
 }

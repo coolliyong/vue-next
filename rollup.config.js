@@ -104,7 +104,8 @@ function createConfig(output, plugins = []) {
   hasTSChecked = true
 
   const externals = Object.keys(aliasOptions).filter(p => p !== '@vue/shared')
-
+  // 开启sourceMap
+  output.sourcemap = true
   return {
     input: resolve(`src/index.ts`),
     // Global and Browser ESM builds inlines everything so that they can be

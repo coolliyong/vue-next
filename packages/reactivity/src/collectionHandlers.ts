@@ -159,6 +159,7 @@ function createIterableMethod(method: string | symbol, isReadonly: boolean) {
   }
 }
 
+// 返回一个高阶函数，函数内判断了一下locked 函数，如果是false，则更新
 function createReadonlyMethod(
   method: Function,
   type: OperationTypes
@@ -179,6 +180,7 @@ function createReadonlyMethod(
   }
 }
 
+// 基本类型
 const mutableInstrumentations: any = {
   get(key: any) {
     return get(this, key, toReactive)
@@ -194,6 +196,7 @@ const mutableInstrumentations: any = {
   forEach: createForEach(false)
 }
 
+// 集合的proxy Handle 处理 函数
 const readonlyInstrumentations: any = {
   get(key: any) {
     return get(this, key, toReadonly)
@@ -221,8 +224,8 @@ function createInstrumentationGetter(instrumentations: any) {
     key: string | symbol,
     receiver: any
   ) {
-    target =
-      hasOwn(instrumentations, key) && key in target ? instrumentations : target
+    // 如果instrumentations 包含key  且 target 里也有这个key，暂且猜测，两者一样，就用 handler ，否则用target
+    target = hasOwn(instrumentations, key) && key in target ? instrumentations : target
     return Reflect.get(target, key, receiver)
   }
 }
